@@ -1,8 +1,58 @@
+import IWatch from '../../models/IWatch';
 import './watchForm.css';
 
-const WatchForm = () => {
+interface IWatchFormProps {
+  form: IWatch;
+  onChange: (newForm: IWatch) => void;
+  onSubmit: (newForm: IWatch) => void;
+}
+
+const WatchForm = ({ form, onChange, onSubmit }: IWatchFormProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const newForm = { ...form, [name]: value };
+    onChange(newForm);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    validateForm(); // валидация формы и отправка данных наверх в App
+  };
+
+  const validateForm = () => {
+    // 1. проверка города:
+    const trimmedZone = form.zone.trim();
+    if (!trimmedZone || !trimmedZone.match(/^[а-яa-z][а-яa-z -]*[а-яa-z]$/i)) {
+      onSubmit({ ...form, zone: '' }); // сброс инпута с городом
+      return;
+    }
+
+    // 2. проверка часового сдвига:
+    const trimmedOffset = form.offset.trim();
+    if (
+      !trimmedOffset ||
+      isNaN(Number(trimmedOffset)) ||
+      Number(trimmedOffset) < 0 ||
+      Number(trimmedOffset) > 23
+    ) {
+      onSubmit({ ...form, offset: '' }); // сброс инпута с часовым сдвигом
+      return;
+    }
+
+    // первые буквы города делаем заглавными (Санкт-Петербург, Нижний Новгород):
+    const fixedZone = trimmedZone
+      .split(/[-]/)
+      .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
+      .join('-')
+      .split(/[ ]/)
+      .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
+      .join(' ');
+
+    onSubmit({ zone: fixedZone, offset: trimmedOffset }); // отправка данных формы наверх в App
+  };
+
   return (
-    <form className="watch-form">
+    <form className="watch-form" onSubmit={handleSubmit}>
       <div className="watch-form__column">
         <label htmlFor="zone" className="watch-form__zone-label">
           Название
@@ -13,6 +63,9 @@ const WatchForm = () => {
           type="text"
           required
           placeholder="город"
+          name="zone"
+          value={form.zone}
+          onChange={handleChange}
         />
       </div>
 
@@ -26,10 +79,13 @@ const WatchForm = () => {
           type="text"
           required
           placeholder="сдвиг в часах"
+          name="offset"
+          value={form.offset}
+          onChange={handleChange}
         />
       </div>
 
-      <button className="watch-form__button" type="button">
+      <button className="watch-form__button" type="submit">
         Добавить
       </button>
     </form>
