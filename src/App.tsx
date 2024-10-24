@@ -28,10 +28,14 @@ const App = () => {
     setForm({ zone: '', offset: '' }); // очистка полей формы
   };
 
+  const handleRemove = (watch: IWatch) => {
+    setWatches(watches.filter((el) => el.zone !== watch.zone)); // удаляем часы
+  };
+
   return (
     <>
       <WatchForm form={form} onChange={handleChange} onSubmit={handleSubmit} />
-      <WatchList watches={watches} />
+      <WatchList watches={watches} onRemove={handleRemove} />
     </>
   );
 };

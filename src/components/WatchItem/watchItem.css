@@ -2,8 +2,6 @@
   position: relative;
 
   padding: 20px;
-
-  outline: 2px dashed rgb(255, 0, 0); /* NOTE: временно !!! */
 }
 
 .watch-item__title {
@@ -38,8 +36,6 @@
   height: 30%;
   left: calc(50% - (4% / 2));
   top: calc(50% - 30%);
-
-  transform: rotate(0deg); /* NOTE: временно !!! */
 }
 
 .minute-arrow {
@@ -47,8 +43,6 @@
   height: 40%;
   left: calc(50% - (2% / 2));
   top: calc(50% - 40%);
-
-  transform: rotate(45deg); /* NOTE: временно !!! */
 }
 
 .second-arrow {
@@ -57,8 +51,6 @@
   background: red;
   left: calc(50% - (1% / 2));
   top: calc(50% - 45%);
-
-  transform: rotate(135deg); /* NOTE: временно !!! */
 }
 
 .watch-item__remove {
