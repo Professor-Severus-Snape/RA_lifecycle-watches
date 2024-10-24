@@ -1,3 +1,4 @@
+import Tooltip from '../Tooltip/Tooltip';
 import IWatch from '../../models/IWatch';
 import './watchForm.css';
 
@@ -5,9 +6,13 @@ interface IWatchFormProps {
   form: IWatch;
   onChange: (newForm: IWatch) => void;
   onSubmit: (newForm: IWatch) => void;
+  tooltip: {
+    zoneTooltip: string;
+    offsetTooltip: string;
+  }
 }
 
-const WatchForm = ({ form, onChange, onSubmit }: IWatchFormProps) => {
+const WatchForm = ({ form, tooltip, onChange, onSubmit }: IWatchFormProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const newForm = { ...form, [name]: value };
@@ -67,6 +72,7 @@ const WatchForm = ({ form, onChange, onSubmit }: IWatchFormProps) => {
           value={form.zone}
           onChange={handleChange}
         />
+        {tooltip.zoneTooltip && <Tooltip text={tooltip.zoneTooltip} />}
       </div>
 
       <div className="watch-form__column">
@@ -83,6 +89,7 @@ const WatchForm = ({ form, onChange, onSubmit }: IWatchFormProps) => {
           value={form.offset}
           onChange={handleChange}
         />
+        {tooltip.offsetTooltip && <Tooltip text={tooltip.offsetTooltip} />}
       </div>
 
       <button className="watch-form__button" type="submit">
