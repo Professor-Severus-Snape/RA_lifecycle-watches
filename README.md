@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/s5g20fkvgx3h9g94?svg=true)](https://ci.appveyor.com/project/Professor-Severus-Snape/ra-lifecycle-watches)
+
 # Мировые часы
 
 Наверняка вы видели в офисах многих компаний установленные часы, показывающие время в разных столицах мира:
