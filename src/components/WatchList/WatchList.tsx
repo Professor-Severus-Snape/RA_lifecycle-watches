@@ -15,8 +15,6 @@ const WatchList = ({ watches, onRemove }: IWatchListProps) => {
     seconds: 0,
   });
 
-  const [timer, setTimer] = useState<number | undefined>(undefined);
-
   const getCurrentTime = () => {
     const date = new Date();
     setTime({
@@ -27,18 +25,11 @@ const WatchList = ({ watches, onRemove }: IWatchListProps) => {
   };
 
   useEffect(() => {
-    // если есть хоть одни часы и интервал не запущен, то запускаем его:
-    if (watches.length && !timer) {
-      getCurrentTime();
-      setTimer(setInterval(() => getCurrentTime(), 1000));
-    }
-
-    // если нет часов и интервал запущен, то очищаем интервал:
-    if (!watches.length && timer) {
-      clearInterval(timer);
-      setTimer(undefined);
-    }
-  }, [watches.length, timer]); // обновление компонента при изменении зависимостей
+    getCurrentTime(); // чтобы часы сразу показывали не initialState, а нужное время
+    const interval = setInterval(getCurrentTime, 1000);
+    return () => clearInterval(interval);
+    }, []
+  );
 
   const items = watches.map((obj) => (
     <WatchItem key={obj.zone} obj={obj} time={time} onRemove={onRemove} />
