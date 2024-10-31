@@ -50,7 +50,7 @@ const App = () => {
         onChange={handleChange}
         onSubmit={handleSubmit}
       />
-      {watches.length ? <WatchList watches={watches} onRemove={handleRemove} /> : ''}
+      {watches.length ? <WatchList watches={watches} onRemove={handleRemove} /> : null}
     </>
   );
 };
